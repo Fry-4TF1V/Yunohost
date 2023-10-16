@@ -1,0 +1,27 @@
+- hosts: all
+  become: yes
+  vars:
+    software_name : yunohost
+    dns_domain : yourdomain.ynh.fr # Choose between Yunohost managed domains
+    user : youruser
+    username : 'FirstName LASTNAME'
+    password : YourPasswordYunohost
+  tasks:
+  - name: Download {{software_name}} install file
+    ansible.builtin.get_url:
+      url: https://install.yunohost.org
+      dest: /tmp/yunohost.sh
+      mode: '0755'
+  - name: Install {{software_name}}
+    ansible.builtin.shell: /tmp/yunohost.sh -a
+  - name: Post Install {{software_name}}
+    ansible.builtin.shell: yunohost tools postinstall -d {{dns_domain}} -u {{user}} -F '{{username}}' -p {{password}} --dyndns-recovery-password {{password}}
+  - name: Cert Install {{software_name}}
+    ansible.builtin.shell: yunohost domain cert-install {{dns_domain}} --no-checks
+  - name: Add authorized keys
+    ansible.posix.authorized_key:
+      user: "{{ user }}"
+      state: present
+      key: "{{ lookup('file', public_key_file) }}"
+  - name: Disable login with password
+    ansible.builtin.shell: yunohost settings set security.ssh.password_authentication -v no
