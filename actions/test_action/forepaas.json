@@ -1,10 +1,10 @@
 {
     "action": "custom",
-    "action_id": "690368315e123320ede8ed5c",
+    "action_id": "69036e3b5e123320ede8edb5",
     "description": "",
-    "display_name": "Test Action",
+    "display_name": "Test action",
     "environment": {
-        "_id": "690368315e123320ede8ed5d",
+        "_id": "69036e3b5e123320ede8edb6",
         "build": null,
         "concurrent_execution": false,
         "dependencies": {
@@ -47,11 +47,11 @@
     "name": "test_action",
     "params": {
         "content": "",
-        "dependencies": {
-            "python": {}
-        },
-        "filename": "main.py",
-        "func": "customfunc"
+        "dependencies": {},
+        "filename": "test_action.py",
+        "func": "",
+        "stop_on_failure": false,
+        "timeout": "2h"
     },
     "tags": {
         "path": "",
